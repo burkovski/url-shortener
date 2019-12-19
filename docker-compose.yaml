@@ -1,0 +1,55 @@
+version: '3.7'
+
+
+networks:
+  internal:
+    driver: bridge
+  external:
+    driver: bridge
+
+
+services:
+  auth:
+    container_name: us_auth
+    build:
+      context: auth
+    tty: true
+    restart: always
+    volumes:
+      - ./auth:/app
+    networks:
+      - internal
+    ports:
+      - 8080:8080
+    depends_on:
+      - database
+
+  database:
+    restart: always
+    container_name: us_database
+    image: postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./.data/postgresql:/var/lib/postgresql/data
+    networks:
+      - internal
+    ports:
+      - 5432:5432
+
+  nginx:
+    container_name: us_nginx
+    image: nginx
+    env_file:
+      - .env
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    networks:
+      - external
+      - internal
+    ports:
+      - 80:80
+    depends_on:
+      - auth
