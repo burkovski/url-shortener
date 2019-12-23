@@ -5,4 +5,4 @@ ADD requirements.txt /tmp
 RUN pip install -r /tmp/requirements.txt
 VOLUME ["/app"]
 EXPOSE 8080
-CMD ["python", "__main__.py"]
+CMD ["python", "main.py"]

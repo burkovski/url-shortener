@@ -1,0 +1,19 @@
+auth:
+  host: localhost
+  port: 80
+
+  postgres:
+    host: database
+    port: 5432
+    database: url_shortener
+    user: url_shortener
+    password: 1qaz2wsx
+    minsize: 1
+    maxsize: 5
+
+  redis:
+    host: redis
+    port: 6379
+    database: 0
+    minsize: 1
+    maxsize: 5

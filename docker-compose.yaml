@@ -12,11 +12,14 @@ services:
   auth:
     container_name: us_auth
     build:
-      context: auth
+      context: ./api/auth
+    env_file:
+      - .env
     tty: true
     restart: always
     volumes:
-      - ./auth:/app
+      - ./api/auth:/app
+      - ./config.yaml:/app/config.yaml:ro
     networks:
       - internal
     ports:
@@ -29,8 +32,8 @@ services:
     container_name: us_database
     image: postgres
     environment:
-      POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB:       ${POSTGRES_DB}
+      POSTGRES_USER:     ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - ./.data/postgresql:/var/lib/postgresql/data
@@ -38,6 +41,16 @@ services:
       - internal
     ports:
       - 5432:5432
+
+  redis:
+    container_name: us_redis
+    image: redis
+    volumes:
+      - ./.data/redis:/data
+    networks:
+      - internal
+    ports:
+      - 6379
 
   nginx:
     container_name: us_nginx
