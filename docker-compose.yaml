@@ -2,9 +2,11 @@ version: '3.7'
 
 
 networks:
-  internal:
+  web:
     driver: bridge
-  external:
+  auth:
+    driver: bridge
+  urls:
     driver: bridge
 
 
@@ -13,55 +15,60 @@ services:
     container_name: us_auth
     build:
       context: ./api/auth
-    env_file:
-      - .env
+    environment:
+      PYTHONASYNCIODEBUG:      ${PYTHONASYNCIODEBUG}
+      PYTHONDONTWRITEBYTECODE: ${PYTHONDONTWRITEBYTECODE}
+      SECRET_KEY:              ${SECRET_KEY}
+      ACCESS_TOKEN_TTL:        ${TOKEN_TTL}
+      REFRESH_TOKEN_TTL:       ${REF_TOKEN_TTL}
     tty: true
     restart: always
     volumes:
       - ./api/auth:/app
       - ./config.yaml:/app/config.yaml:ro
     networks:
-      - internal
+      - auth
     ports:
       - 8080:8080
     depends_on:
-      - database
+      - us_postgres_auth
+      - us_redis_auth
 
-  database:
-    restart: always
-    container_name: us_database
+  us_postgres_auth:
+    container_name: us_postgres_auth
     image: postgres
     environment:
       POSTGRES_DB:       ${POSTGRES_DB}
       POSTGRES_USER:     ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    tty: true
+    restart: always
     volumes:
       - ./.data/postgresql:/var/lib/postgresql/data
     networks:
-      - internal
+      - auth
     ports:
       - 5432:5432
 
-  redis:
-    container_name: us_redis
+  us_redis_auth:
+    container_name: us_redis_auth
     image: redis
     volumes:
       - ./.data/redis:/data
+    tty: true
+    restart: always
     networks:
-      - internal
-    ports:
-      - 6379
+      - auth
 
   nginx:
     container_name: us_nginx
     image: nginx
-    env_file:
-      - .env
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     networks:
-      - external
-      - internal
+      - web
+      - auth
+      - urls
     ports:
       - 80:80
     depends_on:
