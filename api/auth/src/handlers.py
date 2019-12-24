@@ -68,3 +68,11 @@ async def handle_refresh_token(request: web.Request) -> web.Response:
         }
     }
     return web.json_response(resp_json, status=201)
+
+
+async def handle_delete_token(request: web.Request) -> web.Response:
+    json = await request.json()
+    refresh_token = fetch_ref_token(json)
+    pool = redis_pool(request)
+    await redis.delete_ref_token(pool, refresh_token)
+    return web.json_response({Fields.DELETED: refresh_token}, status=200)

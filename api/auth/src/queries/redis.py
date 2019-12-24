@@ -36,3 +36,7 @@ async def replace_refresh_token(pool, old_ref_token, new_ref_token, user_id):
 async def get_user_id_by_ref_token(pool, ref_token):
     user_id = await pool.get(ref_token)
     return user_id
+
+
+async def delete_ref_token(pool, ref_token):
+    await pool.delete(ref_token)

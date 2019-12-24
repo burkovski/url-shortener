@@ -19,11 +19,13 @@ bash:
 	@docker exec -it $(c) /bin/bash
 
 psql:
-	@export PGPASSWORD=${POSTGRES_PASSWORD}; docker exec -it us_database psql -U $(POSTGRES_USER) ${POSTGRES_DB}
+	@export PGPASSWORD=${POSTGRES_PASSWORD}; docker exec -it us_postgres_auth psql -U $(POSTGRES_USER) ${POSTGRES_DB}
 
 create_tables:
-	@docker exec -it us_auth python init_db.py
+	@docker exec -it us_auth python create_tables.py
 
 redis:
-	@docker exec -it us_redis /usr/local/bin/redis-cli
+	@docker exec -it us_redis_auth /usr/local/bin/redis-cli
 
+tests:
+	@docker exec -it us_auth py.test

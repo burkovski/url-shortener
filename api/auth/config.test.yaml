@@ -3,17 +3,17 @@ auth:
   port: 80
 
   postgres:
-    host: database
+    host: us_postgres_auth
     port: 5432
-    database: url_shortener
+    database: url_shortener_test
     user: url_shortener
     password: 1qaz2wsx
     minsize: 1
     maxsize: 5
 
   redis:
-    host: redis
+    host: us_redis_auth
     port: 6379
-    database: 0
+    database: 1
     minsize: 1
     maxsize: 5

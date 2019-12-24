@@ -10,4 +10,3 @@ def main(config):
 
 if __name__ == "__main__":
     main(CONFIG)
-    main(None)
