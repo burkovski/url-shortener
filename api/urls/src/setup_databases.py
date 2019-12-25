@@ -1,23 +1,7 @@
-import asyncpgsa
 import aioredis
-
 from aiohttp.web import Application
 from .utils.fields import get_fields, Fields
-from .utils.db import create_postgres_url, create_redis_url
-
-
-async def init_postgres(app: Application):
-    db_config = app["config"][Fields.POSTGRES]
-    minsize, maxsize = get_fields(db_config, "minsize", "maxsize")
-    db_url = create_postgres_url(db_config)
-    pool = await asyncpgsa.create_pool(
-        db_url,
-        min_size=minsize,
-        max_size=maxsize
-    )
-    app[Fields.POSTGRES] = pool
-    yield
-    await app[Fields.POSTGRES].close()
+from .utils.db import create_redis_url
 
 
 async def init_redis(app: Application):

@@ -14,6 +14,7 @@ auth:
   redis:
     host: us_redis_auth
     port: 6379
+    password: 1qaz2wsx
     database: 1
     minsize: 1
     maxsize: 5
