@@ -1,5 +1,6 @@
 import datetime
 import os
+import math
 
 
 SHORT_URL_MIN_TTL = int(os.environ["SHORT_URL_MIN_TTL"])
@@ -11,4 +12,4 @@ def expire_date_to_ttl(expire_at):
     now = datetime.datetime.utcnow()
     delta = expire_date - now
     ttl = delta.total_seconds()
-    return int(ttl)
+    return math.ceil(ttl)

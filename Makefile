@@ -3,8 +3,14 @@ include .env
 PROJECT_NAME=url_shortener
 
 
+run_prod:
+	@docker-compose -f docker-compose.prod.yaml up --build
+
+clean_prod:
+	@docker-compose -f docker-compose.prod.yaml down
+
 run:
-	@docker-compose up --build --force-recreate
+	@docker-compose up
 
 build:
 	@docker-compose build
@@ -39,3 +45,6 @@ tests_urls:
 tests:
 	@docker exec -it us_auth py.test
 	@docker exec -it us_urls py.test
+
+build_dist:
+	@docker exec -it us_app npm run build

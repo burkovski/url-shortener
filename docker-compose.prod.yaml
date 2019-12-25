@@ -27,8 +27,8 @@ services:
       - ./api/auth:/app
     networks:
       - auth
-    ports:
-      - 8080:8080
+#    ports:
+#      - 8080:8080
     depends_on:
       - us_postgres_auth
       - us_redis_auth
@@ -75,8 +75,8 @@ services:
       - ./api/urls:/app
     networks:
       - urls
-    ports:
-      - 8081:8080
+#    ports:
+#      - 8081:8080
     depends_on:
       - us_redis_urls
 
@@ -90,26 +90,13 @@ services:
     networks:
       - urls
 
-  app:
-    container_name: us_app
-    build:
-      context: ./app
-    environment:
-      ACCESS_TOKEN_TTL:        ${TOKEN_TTL}
-      REFRESH_TOKEN_TTL:       ${REF_TOKEN_TTL}
-    tty: true
-#    user: "${UID}:${GID}"
-    volumes:
-      - ./app:/app
-      - ./dist:/dist
-    networks:
-      - web
 
   nginx:
     container_name: us_nginx
     image: nginx
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/prod/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./dist:/usr/share/nginx/html/
     networks:
       - web
       - auth
