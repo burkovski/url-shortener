@@ -1,6 +1,4 @@
 from aioredis import MultiExecError
-from trafaret import guard, Int
-from ..utils.expire import SHORT_URL_MIN_TTL, SHORT_URL_MAX_TTL
 from ..utils.fields import Fields
 from ..utils.db import URL_ID_KEY, create_url_key, create_user_key, url_id_base62
 from ..utils.urls import create_short_url
@@ -23,7 +21,6 @@ async def _execute_transaction(transaction):
     return result
 
 
-@guard(ttl=(Int(gt=SHORT_URL_MIN_TTL) & Int(lt=SHORT_URL_MAX_TTL+1)), allow_extra="*")
 async def remember_long_url(pool, long_url, ttl, user_id):
     url_id = await get_url_id(pool)
     url_id = url_id_base62(url_id)
@@ -44,7 +41,6 @@ async def remember_long_url(pool, long_url, ttl, user_id):
 
 async def get_long_url(pool, url_id):
     url_key = create_url_key(url_id)
-    print(url_key)
     long_url = await pool.hget(url_key, Fields.URL_LONG)
     if not long_url:
         return
@@ -56,7 +52,6 @@ async def get_urls_for_user(pool, user_id):
     user_key = create_user_key(user_id)
     user_url_ids = await pool.smembers(user_key)
     user_urls = []
-    print(user_url_ids)
     for url_id in user_url_ids:
         url_key = create_url_key(url_id)
         url_info = await pool.hgetall(url_key)
