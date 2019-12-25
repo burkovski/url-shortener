@@ -7,7 +7,7 @@ def create_postgres_url(db_config):
 
 
 def create_redis_url(redis_config):
-    dsn = "redis://{host}:{port}"
+    dsn = "redis://{host}:{port}/{database}"
     return dsn.format(**redis_config)
 
 

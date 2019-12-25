@@ -1,0 +1,10 @@
+urls:
+  host: localhost
+  port: 80
+
+  redis:
+    host: us_redis_urls
+    port: 6379
+    database: 0
+    minsize: 1
+    maxsize: 5

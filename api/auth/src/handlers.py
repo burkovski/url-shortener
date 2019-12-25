@@ -3,15 +3,8 @@ from .queries import postgres, redis
 from .utils.fields import Fields
 from .utils.db import postgres_pool, redis_pool
 from .utils import security
-from .utils.json import fetch_email, fetch_password, fetch_token, fetch_ref_token
+from .utils.json import fetch_email, fetch_password, fetch_ref_token
 from asyncpg.exceptions import UniqueViolationError
-
-
-async def handle_get_all_users(request: web.Request) -> web.Response:
-    async with postgres_pool(request).acquire() as conn:
-        users = await postgres.get_all_users(conn)
-    users = list(map(dict, users))
-    return web.json_response(users)
 
 
 async def handle_create_user(request: web.Request) -> web.Response:

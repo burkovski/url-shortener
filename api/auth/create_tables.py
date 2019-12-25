@@ -19,7 +19,7 @@ def create_db_dsn(db_config):
 
 
 def main(config):
-    db_config = config["postgres"]
+    db_config = config["auth"]["postgres"]
     dsn = create_db_dsn(db_config)
     engine = create_engine(dsn)
     create_tables(engine)

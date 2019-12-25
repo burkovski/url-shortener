@@ -30,8 +30,8 @@ services:
     restart: always
     volumes:
       - ./api/auth:/app
-      - ./config.yaml:/etc/config.yaml:ro
-      - ./config.test.yaml:/etc/config.test.yaml:ro
+#      - ./config.yaml:/etc/config.yaml:ro
+#      - ./config.test.yaml:/etc/config.test.yaml:ro
     networks:
       - auth
     ports:
@@ -60,11 +60,42 @@ services:
     container_name: us_redis_auth
     image: redis
     volumes:
-      - ./.data/redis:/data
+      - ./.data/redis_auth:/data
     tty: true
     restart: always
     networks:
       - auth
+
+  urls:
+    container_name: us_urls
+    build:
+      context: ./api/urls
+    environment:
+      PYTHONASYNCIODEBUG:      ${PYTHONASYNCIODEBUG}
+      PYTHONDONTWRITEBYTECODE: ${PYTHONDONTWRITEBYTECODE}
+      SECRET_KEY:              ${SECRET_KEY}
+      SHORT_URL_MIN_TTL:       ${SHORT_URL_MIN_TTL}
+      SHORT_URL_MAX_TTL:       ${SHORT_URL_MAX_TTL}
+    tty: true
+    restart: always
+    volumes:
+      - ./api/urls:/app
+    networks:
+      - urls
+    ports:
+      - 8081:8080
+    depends_on:
+      - us_redis_urls
+
+  us_redis_urls:
+    container_name: us_redis_urls
+    image: redis
+    volumes:
+      - ./.data/redis_urls:/data
+    tty: true
+    restart: always
+    networks:
+      - urls
 
   nginx:
     container_name: us_nginx
@@ -79,3 +110,4 @@ services:
       - 80:80
     depends_on:
       - auth
+      - urls

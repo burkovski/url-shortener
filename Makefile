@@ -24,8 +24,11 @@ psql:
 create_tables:
 	@docker exec -it us_auth python create_tables.py
 
-redis:
+redis_auth:
 	@docker exec -it us_redis_auth /usr/local/bin/redis-cli
 
-tests:
+tests_auth:
 	@docker exec -it us_auth py.test
+
+redis_urls:
+	@docker exec -it us_redis_urls /usr/local/bin/redis-cli
