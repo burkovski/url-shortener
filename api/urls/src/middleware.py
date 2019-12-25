@@ -8,7 +8,7 @@ from .utils.fields import Fields
 
 @middleware
 async def error_middleware(request: Request, handler) -> Response:
-    catch_codes = {404, 500}
+    catch_codes = {500}
     try:
         response: Response = await handler(request)
         if response.status not in catch_codes:

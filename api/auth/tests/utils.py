@@ -94,17 +94,3 @@ class PostgresTools(metaclass=MetaSingleton):
 
     def drop_tables(self, tables):
         self.metadata.drop_all(bind=self.test_engine, tables=tables)
-
-
-class RedisTools:
-    def __init__(self):
-        self.engine = None
-
-    def connect(self):
-        self.engine = Redis.from_url(create_redis_url(REDIS_CONFIG))
-
-    def clear(self):
-        self.engine.flushdb()
-
-    def disconnect(self):
-        self.engine.close()

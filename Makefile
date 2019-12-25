@@ -32,3 +32,10 @@ tests_auth:
 
 redis_urls:
 	@docker exec -it us_redis_urls /usr/local/bin/redis-cli
+
+tests_urls:
+	@docker exec -it us_urls py.test
+
+tests:
+	@docker exec -it us_auth py.test
+	@docker exec -it us_urls py.test

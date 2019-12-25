@@ -2,7 +2,7 @@ import sys; sys.path.insert(0, '.'); sys.path.insert(1, '..')
 
 import pytest
 
-from .utils import PostgresTools, RedisTools, TEST_CONFIG
+from .utils import PostgresTools, TEST_CONFIG
 from ..src.models import tables_to_create
 from ..src.app import make_app
 
@@ -24,17 +24,8 @@ def tables(postgres):
         conn.drop_tables(tables_to_create)
 
 
-@pytest.yield_fixture(scope='session')
-def redis():
-    redis_tool = RedisTools()
-    redis_tool.connect()
-    yield
-    redis_tool.clear()
-    redis_tool.disconnect()
-
-
 @pytest.fixture
-async def client(aiohttp_client, tables, redis):
+async def client(aiohttp_client, tables):
     app = make_app(TEST_CONFIG)
     return await aiohttp_client(app)
 
