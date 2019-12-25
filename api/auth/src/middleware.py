@@ -10,10 +10,13 @@ async def error_middleware(request: Request, handler) -> Response:
         if response.status not in catch_codes:
             return response
         message = response.text
+        status = response.status
     except JSONDecodeError:
         message = "JSON isn't passed"
+        status = 400
     except HTTPException as exc:
         if exc.status not in catch_codes:
             raise
         message = exc.reason
-    return json_response({"error": message})
+        status = exc.status
+    return json_response({"error": message}, status=status)

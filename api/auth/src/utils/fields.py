@@ -10,6 +10,7 @@ class Fields:
     JWT_EXPIRES = "exp"
 
     CREATED   = "created"
+    DELETED   = "deleted"
     TOKEN     = "token"
     REF_TOKEN = "refresh_token"
 

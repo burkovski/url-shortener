@@ -10,6 +10,11 @@ networks:
     driver: bridge
 
 
+volumes:
+  auth:
+    driver: local
+
+
 services:
   auth:
     container_name: us_auth
@@ -25,7 +30,8 @@ services:
     restart: always
     volumes:
       - ./api/auth:/app
-      - ./config.yaml:/app/config.yaml:ro
+      - ./config.yaml:/etc/config.yaml:ro
+      - ./config.test.yaml:/etc/config.test.yaml:ro
     networks:
       - auth
     ports:
