@@ -1,7 +1,6 @@
 FROM node
 WORKDIR /app
-VOLUME ["/app"]
-COPY package.json .
+COPY package.json /app
 RUN npm install
 EXPOSE 3000
 CMD ["npm", "run", "start"]

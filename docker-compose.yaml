@@ -95,11 +95,12 @@ services:
     build:
       context: ./app
     environment:
-      ACCESS_TOKEN_TTL:        ${TOKEN_TTL}
-      REFRESH_TOKEN_TTL:       ${REF_TOKEN_TTL}
+      ACCESS_TOKEN_TTL:  ${TOKEN_TTL}
+      REFRESH_TOKEN_TTL: ${REF_TOKEN_TTL}
     tty: true
     volumes:
       - ./app:/app
+      - /app/node_modules
       - ./dist:/dist
     networks:
       - web

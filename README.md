@@ -17,7 +17,7 @@
 
 * Перейти в директорию проекта: 
     ```
-    сd url-shortener
+    cd url-shortener/
     ```
 
 
