@@ -27,8 +27,6 @@ services:
       - ./api/auth:/app
     networks:
       - auth
-#    ports:
-#      - 8080:8080
     depends_on:
       - us_postgres_auth
       - us_redis_auth
@@ -46,8 +44,6 @@ services:
       - ./.data/postgresql:/var/lib/postgresql/data
     networks:
       - auth
-    ports:
-      - 5432:5432
 
   us_redis_auth:
     container_name: us_redis_auth
@@ -75,8 +71,6 @@ services:
       - ./api/urls:/app
     networks:
       - urls
-#    ports:
-#      - 8081:8080
     depends_on:
       - us_redis_urls
 

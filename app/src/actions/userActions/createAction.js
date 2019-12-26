@@ -24,7 +24,6 @@ const createUserSuccess = (data) => {
 
 
 export const createUser = (email, password, rePassword) => {
-  console.log("func", email);
   return (dispatch) => {
     if (password !== rePassword) {
       dispatch(createUserFailure("Passwords must be match!"));

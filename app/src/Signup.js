@@ -142,7 +142,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onSignupClick: (email, password, rePassword) => {
-      console.log("map", email);
       dispatch(createUser(email, password, rePassword));
     }
   };

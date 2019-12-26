@@ -42,7 +42,6 @@ async def handle_redirect(request: web.Request) -> web.Response:
 @login_required
 async def handle_get_user_owned_urls(request: web.Request) -> web.Response:
     user_id = request["user"]["user_id"]
-    print(user_id)
     pool = redis_pool(request)
     urls = await redis.get_urls_for_user(pool, user_id)
     return web.json_response(urls)

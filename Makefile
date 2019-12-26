@@ -4,7 +4,7 @@ PROJECT_NAME=url_shortener
 
 
 run_prod:
-	@docker-compose -f docker-compose.prod.yaml up --build
+	@docker-compose -f docker-compose.prod.yaml up --build --force-recreate
 
 clean_prod:
 	@docker-compose -f docker-compose.prod.yaml down
