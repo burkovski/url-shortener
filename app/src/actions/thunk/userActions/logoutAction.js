@@ -1,5 +1,5 @@
-import { LOGOUT_USER_FAILURE, LOGOUT_USER_REQUEST, LOGOUT_USER_SUCCESS } from "../actions";
-import { dataInProcessing, myFetch, ROOT_URL } from "../../utils";
+import { LOGOUT_USER_FAILURE, LOGOUT_USER_REQUEST, LOGOUT_USER_SUCCESS } from "../../actionTypes";
+import { myFetch, ROOT_URL } from "../../../utils";
 import { push } from "connected-react-router";
 
 const logoutUserRequest = () => {
@@ -19,16 +19,10 @@ const logoutUserSuccess = () => {
 
 export const logoutUser = () => {
   return (dispatch, getState) => {
-    const userStore = getState().userReducer;
-
-    if (dataInProcessing(userStore)) {
-      return;
-    }
-
-    const { refreshToken } = userStore;
 
     dispatch(logoutUserRequest());
-    myFetch(`${ROOT_URL}/auth/tokens`, "DELETE", { "refresh_token": refreshToken })
+
+    myFetch(`${ROOT_URL}/auth/tokens`, "DELETE", { "refresh_token": getState().userReducer.refreshToken })
       .then((response) => {
         if (!response.isSuccess) {
           throw response.error;

@@ -6,15 +6,14 @@ import {
   FETCH_USER_OWNED_URLS_FAILURE,
   FETCH_USER_OWNED_URLS_SUCCESS,
   LOGIN_USER_SUCCESS,
-  LOGOUT_USER_SUCCESS
-} from "../actions/actions";
+  LOGOUT_USER_SUCCESS,
+   REFRESH_URLS_BUTTON_CLICK
+} from "../actions/actionTypes";
 
 
 const initialState = {
   inProcessing: false,
-  didInvalidate: false,
-  noUrlsYet: false,
-  urls: [],
+  urls: null,
   shortUrl: null,
   error:null
 };
@@ -39,16 +38,13 @@ export const urlReducer =  (state=initialState, action) => {
       return {
         ...state,
         inProcessing: false,
-        didInvalidate: true,
         shortUrl: action.data["created"]
       };
     case FETCH_USER_OWNED_URLS_SUCCESS:
       return {
         ...state,
         inProcessing: false,
-        didInvalidate: false,
-        urls: action.data,
-        noUrlsYet: action.data === []
+        urls: action.urlsList,
       };
     case LOGOUT_USER_SUCCESS:
     case LOGIN_USER_SUCCESS:

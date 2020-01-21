@@ -46,17 +46,6 @@ async function myFetch(url, method, body, additionalHeaders) {
 }
 
 
-function shouldRefreshTokens(accessToken) {
-  if (!accessToken) {
-    return false;
-  }
-  let payload = atob(accessToken.split('.')[1]);
-  let expireAt = payload.exp;
-  let utcNow = Math.round(Date.now() / 1000);
-  return expireAt <= utcNow;
-}
-
-
 const dataInProcessing = (storage) => {
   return storage.inProcessing;
 };
@@ -67,12 +56,10 @@ const AdapterLink = React.forwardRef((props, ref) => {
 });
 
 
-
 export {
   myFetch,
   ROOT_URL,
   dataInProcessing,
-  shouldRefreshTokens,
   AdapterLink
 };
 

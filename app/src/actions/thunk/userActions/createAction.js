@@ -1,5 +1,5 @@
-import { CREATE_USER_FAILURE, CREATE_USER_REQUEST, CREATE_USER_SUCCESS } from "../actions";
-import { myFetch, ROOT_URL } from "../../utils";
+import { CREATE_USER_FAILURE, CREATE_USER_REQUEST, CREATE_USER_SUCCESS } from "../../actionTypes";
+import { myFetch, ROOT_URL } from "../../../utils";
 import { push } from "connected-react-router";
 
 const createUserRequest = () => {
@@ -23,15 +23,10 @@ const createUserSuccess = (data) => {
 };
 
 
-export const createUser = (email, password, rePassword) => {
+export const createUser = (email, password) => {
   return (dispatch) => {
-    if (password !== rePassword) {
-      dispatch(createUserFailure("Passwords must be match!"));
-      return;
-    }
-
     dispatch(createUserRequest());
-
+    console.log("Password:", password);
     myFetch(`${ROOT_URL}/auth/users`, "POST", {email, password})
       .then((response) => {
         if (!response.isSuccess) {
@@ -39,12 +34,15 @@ export const createUser = (email, password, rePassword) => {
         }
         return response.data;
       })
-      .then((data) => {
-        dispatch(createUserSuccess(data));
-        dispatch(push('/login'));
+      .then(() => {
+        dispatch(createUserSuccess());
+        if (confirm(`Your account <${email}> has been created. Do you want to login?`)) {
+          dispatch(push("/login"));
+        }
       })
       .catch((error) => {
         dispatch(createUserFailure(error));
+        alert(`An error was occurred: ${error}`);
       });
   };
 };

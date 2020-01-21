@@ -1,17 +1,7 @@
-import React from "react";
 import { connect } from "react-redux";
 
-import { logoutUser } from "./actions/userActions/logoutAction";
-import { NavBar } from "./NavBar";
-
-
-const Menu = (props) => {
-  const { email, logoutHandler } = props;
-
-  return (
-    <NavBar email={email} logoutHandler={logoutHandler} />
-  );
-};
+import Menu from "../components/Menu";
+import { logoutUser } from "../actions/saga/userActions/logoutSaga";
 
 
 const mapStateToProps = (state) => {
@@ -23,7 +13,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    logoutHandler: () => {
+    logoutClick: () => {
       dispatch(logoutUser());
     }
   };

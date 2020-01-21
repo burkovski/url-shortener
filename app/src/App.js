@@ -1,24 +1,20 @@
-import { Route, Switch } from "react-router-dom";
 import React from "react";
+import { Provider } from "react-redux";
+import { ConnectedRouter } from "connected-react-router";
 
-import Home from "./Home";
-import Menu from "./Menu";
-import SignIn from "./SignIn";
-import Signup from "./Signup";
-import Cabinet from "./Cabinet";
+import { store, history } from "./configureStore";
+import Routes from "./router";
 
 
-const App = (props) => {
+// const store = configureStore();
+
+const App = () => {
   return (
-    <div>
-      <Menu/>
-      <Switch>
-        <Route exact path='/' component={Home}/>
-        <Route path='/login' component={SignIn}/>
-        <Route path='/signup' component={Signup}/>
-        <Route path='/cabinet' component={Cabinet}/>
-      </Switch>
-    </div>
+    <Provider store={store}>
+      <ConnectedRouter history={history}>
+        <Routes />
+      </ConnectedRouter>
+    </Provider>
   );
 };
 
