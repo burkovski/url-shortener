@@ -35,7 +35,7 @@ const refreshTokensSuccess = (tokens) => {
 
 
 const refreshTokensFailure = (error) => {
-  return { type: REFRESH_TOKENS_FAILURE, error };
+  return { type: REFRESH_TOKENS_FAILURE, error   };
 };
 
 
